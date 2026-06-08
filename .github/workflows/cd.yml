@@ -20,4 +20,4 @@ jobs:
 
       - name: Build and Deploy
         run: |
-          scripts/buildprod.sh
+          ./scripts/buildprod.sh
