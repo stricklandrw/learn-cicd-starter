@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/cors"
@@ -92,15 +93,10 @@ func main() {
 	srv := &http.Server{
 		Addr:              ":" + port,
 		Handler:           router,
-		ReadHeaderTimeout: 5 * 60, // 5 minutes
+		ReadHeaderTimeout: time.Second * 5, // 5 minutes
 	}
 
 	// Port comes from environment variable, safe to log, added strings to prevent injection attacks
-	checkedPort, err := strconv.Atoi(port)
-	if err != nil {
-		log.Printf("Invalid port number: %d", checkedPort)
-		log.Fatal("PORT environment variable must be a valid integer")
-	}
-	log.Printf("Serving on port: %d\n", checkedPort)
+	log.Printf("Serving on port: %s\n", strconv.Quote(port))
 	log.Fatal(srv.ListenAndServe())
 }
